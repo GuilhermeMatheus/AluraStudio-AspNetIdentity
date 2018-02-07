@@ -90,9 +90,17 @@ namespace ByteBank.Forum.Controllers
                 $"Bem vindo ao fórum ByteBank, clique aqui {linkDeCallback} para confirmar seu email!");
         }
 
-        public ActionResult ConfirmacaoEmail(string usuarioId, string token)
+        public async Task<ActionResult> ConfirmacaoEmail(string usuarioId, string token)
         {
-            throw new NotImplementedException();
+            if (usuarioId == null || token == null)
+                return View("Error");
+
+            var resultado = await UserManager.ConfirmEmailAsync(usuarioId, token);
+
+            if (resultado.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                return View("Error");
         }
         
         private void AdicionaErros(IdentityResult resultado)
