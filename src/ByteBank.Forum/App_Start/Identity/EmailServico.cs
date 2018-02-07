@@ -25,7 +25,7 @@ namespace ByteBank.Forum.App_Start.Identity
                 mensagemDeEmail.To.Add(message.Destination);
                 mensagemDeEmail.Body = message.Body;
 
-                // SMTP - Simple Mail Transport Protocol
+                // SMTP - Simple Mail Transfer Protocol
                 using (var smtpClient = new SmtpClient())
                 {
                     smtpClient.UseDefaultCredentials = true;
