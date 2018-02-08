@@ -57,6 +57,18 @@ namespace ByteBank.Forum
 
                     return userManager;
                 });
+
+            builder.CreatePerOwinContext<SignInManager<UsuarioAplicacao, string>>(
+                (opcoes, contextoOwin) =>
+                {
+                    var userManager = contextoOwin.Get<UserManager<UsuarioAplicacao>>();
+                    var signInManager =
+                        new SignInManager<UsuarioAplicacao, string>(
+                            userManager,
+                            contextoOwin.Authentication);
+
+                    return signInManager;
+                });
         }
     }
 }
