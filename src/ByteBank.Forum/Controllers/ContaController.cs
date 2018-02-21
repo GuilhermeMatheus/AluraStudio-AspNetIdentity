@@ -225,6 +225,36 @@ namespace ByteBank.Forum.Controllers
 
         public ActionResult ConfirmacaoAlteracaoSenha(string usuarioId, string token)
         {
+            var modelo = new ContaConfirmacaoAlteracaoSenhaViewModel
+            {
+                UsuarioId = usuarioId,
+                Token = token
+            };
+
+            return View(modelo);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ConfirmacaoAlteracaoSenha(ContaConfirmacaoAlteracaoSenhaViewModel modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                // Verifica o Token recebido
+                // Verifica o ID do usuário
+                // Mudar a senha
+                var resultadoAlteracao = 
+                    await UserManager.ResetPasswordAsync(
+                        modelo.UsuarioId,
+                        modelo.Token,
+                        modelo.NovaSenha);
+
+                if (resultadoAlteracao.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                AdicionaErros(resultadoAlteracao);
+            }
+
             return View();
         }
 
