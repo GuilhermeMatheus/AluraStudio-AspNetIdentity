@@ -1,4 +1,6 @@
-﻿@model ByteBank.Forum.ViewModels.ContaRegistrarViewModel
+﻿@using Microsoft.Owin.Security
+
+@model ByteBank.Forum.ViewModels.ContaRegistrarViewModel
 
 @{
     ViewBag.Title = "Registrar";
@@ -24,3 +26,18 @@
 
 }
 
+
+@using (Html.BeginForm("RegistrarPorAutenticacaoExterna", "Conta"))
+{
+    var providersAutenticacao = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+
+    if (providersAutenticacao != null && providersAutenticacao.Any())
+    {
+        foreach (var provider in providersAutenticacao)
+        {
+            <button class="btn" type="submit" value="@provider.AuthenticationType" name="provider">
+                @provider.Caption
+            </button>
+        }
+    }
+}
