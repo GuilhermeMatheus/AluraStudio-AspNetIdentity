@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
+using System.Security.Claims;
 
 namespace ByteBank.Forum.Controllers
 {
@@ -116,7 +117,29 @@ namespace ByteBank.Forum.Controllers
             var loginInfo = 
                 await SignInManager.AuthenticationManager.GetExternalLoginInfoAsync();
 
-            return null;
+            var usuarioExistente = await UserManager.FindByEmailAsync(loginInfo.Email);
+            if (usuarioExistente != null)
+                return View("Error");
+
+            var novoUsuario = new UsuarioAplicacao();
+
+            novoUsuario.Email = loginInfo.Email;
+            novoUsuario.UserName = loginInfo.Email;
+            novoUsuario.NomeCompleto =
+                loginInfo.ExternalIdentity.FindFirstValue(
+                        loginInfo.ExternalIdentity.NameClaimType
+                    );
+
+            var resultado = await UserManager.CreateAsync(novoUsuario);
+            if (resultado.Succeeded)
+            {
+                var resultadoAddLoginInfo =
+                    await UserManager.AddLoginAsync(novoUsuario.Id, loginInfo.Login);
+                if (resultadoAddLoginInfo.Succeeded)
+                    return RedirectToAction("Index", "Home");
+            }
+
+            return View("Error");
         }
 
         private async Task EnviarEmailDeConfirmacaoAsync(UsuarioAplicacao usuario)
