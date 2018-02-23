@@ -1,10 +1,12 @@
 ﻿using ByteBank.Forum.Models;
 using ByteBank.Forum.ViewModels;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,7 +32,25 @@ namespace ByteBank.Forum.Controllers
                 _userManager = value;
             }
         }
-        
+
+        private RoleManager<IdentityRole> _roleManager;
+        public RoleManager<IdentityRole> RoleManager
+        {
+            get
+            {
+                if (_roleManager == null)
+                {
+                    var contextOwin = HttpContext.GetOwinContext();
+                    _roleManager = contextOwin.GetUserManager<RoleManager<IdentityRole>>();
+                }
+                return _roleManager;
+            }
+            set
+            {
+                _roleManager = value;
+            }
+        }
+
         public ActionResult Index()
         {
             var usuarios =
@@ -42,9 +62,13 @@ namespace ByteBank.Forum.Controllers
             return View(usuarios);
         }
 
-        public ActionResult EditarFuncoes(string id)
+        public async Task<ActionResult> EditarFuncoes(string id)
         {
-            return View();
+            var usuario = await UserManager.FindByIdAsync(id);
+
+            var modelo = new UsuarioEditarFuncoesViewModel(usuario, RoleManager);
+
+            return View(modelo);
         }
     }
 }

@@ -197,6 +197,8 @@
     <Compile Include="ViewModels\ContaLoginViewModel.cs" />
     <Compile Include="ViewModels\ContaRegistrarViewModel.cs" />
     <Compile Include="ViewModels\TopicoCriarViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioEditarFuncoesViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioFuncaoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +247,7 @@
     <Content Include="Views\Conta\ConfirmacaoAlteracaoSenha.cshtml" />
     <Content Include="Views\Administracao\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\EditarFuncoes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
