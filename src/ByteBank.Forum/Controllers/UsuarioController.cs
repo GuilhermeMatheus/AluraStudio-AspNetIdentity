@@ -70,5 +70,41 @@ namespace ByteBank.Forum.Controllers
 
             return View(modelo);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> EditarFuncoes(UsuarioEditarFuncoesViewModel modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = await UserManager.FindByIdAsync(modelo.Id);
+
+                var rolesUsuario = UserManager.GetRoles(usuario.Id);
+
+                var resultadoRemocao = await UserManager.RemoveFromRolesAsync(
+                    usuario.Id,
+                    rolesUsuario.ToArray()
+                );
+
+                if (resultadoRemocao.Succeeded)
+                {
+                    var funcoesSelecionadasPeloAdmin =
+                        modelo
+                            .Funcoes
+                            .Where(funcao => funcao.Selecionado)
+                            .Select(funcao => funcao.Nome)
+                            .ToArray();
+
+                    var resultadoAdicao = await UserManager.AddToRolesAsync(
+                        usuario.Id,
+                        funcoesSelecionadasPeloAdmin
+                    );
+
+                    if (resultadoAdicao.Succeeded)
+                        return RedirectToAction("Index");
+                }
+            }
+
+            return View();
+        }
     }
 }
