@@ -90,6 +90,23 @@ namespace ByteBank.Forum
                  ClientSecret = ConfigurationManager.AppSettings["google:client_secret"],
                  Caption = "Google"
             });
+
+            CriarRoles();
         }
+
+        private void CriarRoles()
+        {
+            using (var dbContext = new IdentityDbContext<UsuarioAplicacao>("DefaultConnection"))
+            using (var roleStore = new RoleStore<IdentityRole>(dbContext))
+            using (var roleManager = new RoleManager<IdentityRole>(roleStore))
+            {
+                if (!roleManager.RoleExists(RolesNomes.ADMINISTRADOR))
+                    roleManager.Create(new IdentityRole(RolesNomes.ADMINISTRADOR));
+
+                if (!roleManager.RoleExists(RolesNomes.MODERADOR))
+                    roleManager.Create(new IdentityRole(RolesNomes.MODERADOR));
+            }
+        }
+
     }
 }
