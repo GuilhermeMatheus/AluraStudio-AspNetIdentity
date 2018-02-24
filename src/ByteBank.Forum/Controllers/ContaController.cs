@@ -336,6 +336,26 @@ namespace ByteBank.Forum.Controllers
             return View("Login");
         }
 
+        public async Task<ActionResult> MinhaConta()
+        {
+            var modelo = new ContaMinhaContaViewModel();
+
+            var usuarioId = HttpContext.User.Identity.GetUserId();
+            var usuario = await UserManager.FindByIdAsync(usuarioId);
+
+            modelo.NomeCompleto = usuario.NomeCompleto;
+            modelo.NumeroDeCelular = usuario.PhoneNumber;
+            modelo.HabilitarAutenticacaoDeDoisFatores = usuario.TwoFactorEnabled;
+
+            return View(modelo);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> MinhaConta(ContaMinhaContaViewModel modelo)
+        {
+
+        }
+
         private void AdicionaErros(IdentityResult resultado)
         {
             foreach (var erro in resultado.Errors)
