@@ -195,6 +195,7 @@
     <Compile Include="ViewModels\ContaConfirmacaoAlteracaoSenhaViewModel.cs" />
     <Compile Include="ViewModels\ContaEsqueciSenhaViewModel.cs" />
     <Compile Include="ViewModels\ContaLoginViewModel.cs" />
+    <Compile Include="ViewModels\ContaMinhaContaViewModel.cs" />
     <Compile Include="ViewModels\ContaRegistrarViewModel.cs" />
     <Compile Include="ViewModels\TopicoCriarViewModel.cs" />
     <Compile Include="ViewModels\UsuarioEditarFuncoesViewModel.cs" />
