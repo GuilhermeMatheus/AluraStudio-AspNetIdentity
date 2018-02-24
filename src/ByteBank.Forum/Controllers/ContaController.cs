@@ -388,6 +388,30 @@ namespace ByteBank.Forum.Controllers
                 $"Token de confirmacao: {tokenDeConfirmacao}");
         }
 
+        public ActionResult VerificacaoCodigoCelular()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> VerificacaoCodigoCelular(string token)
+        {
+            var usuarioId = HttpContext.User.Identity.GetUserId();
+            var usuario = await UserManager.FindByIdAsync(usuarioId);
+
+            var resultado = 
+                await UserManager.ChangePhoneNumberAsync(
+                    usuarioId,
+                    usuario.PhoneNumber,
+                    token);
+
+            if (resultado.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            AdicionaErros(resultado);
+            return View();
+        }
+
         private void AdicionaErros(IdentityResult resultado)
         {
             foreach (var erro in resultado.Errors)
