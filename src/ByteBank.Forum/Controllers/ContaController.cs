@@ -346,6 +346,7 @@ namespace ByteBank.Forum.Controllers
             modelo.NomeCompleto = usuario.NomeCompleto;
             modelo.NumeroDeCelular = usuario.PhoneNumber;
             modelo.HabilitarAutenticacaoDeDoisFatores = usuario.TwoFactorEnabled;
+            modelo.NumeroDeCelularConfirmado = usuario.PhoneNumberConfirmed;
 
             return View(modelo);
         }
