@@ -250,6 +250,7 @@
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\EditarFuncoes.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\UsuarioFuncaoViewModel.cshtml" />
+    <Content Include="Views\Conta\MinhaConta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

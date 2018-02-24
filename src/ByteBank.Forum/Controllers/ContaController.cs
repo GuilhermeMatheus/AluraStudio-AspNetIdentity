@@ -354,7 +354,7 @@ namespace ByteBank.Forum.Controllers
         [HttpPost]
         public async Task<ActionResult> MinhaConta(ContaMinhaContaViewModel modelo)
         {
-
+            return View();
         }
 
         private void AdicionaErros(IdentityResult resultado)
