@@ -360,6 +360,15 @@ namespace ByteBank.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public ActionResult EsquecerNavegador()
+        {
+            AuthenticationManager.SignOut(
+                DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+            
+            return RedirectToAction("MinhaConta");
+        }
+
         private ActionResult SenhaOuUsuarioInvalidos()
         {
             ModelState.AddModelError("", "Credenciais inválidas!");
